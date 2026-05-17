@@ -55,6 +55,10 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+    environment:
+      BACK_DESPACHOS_HOST: back-despachos:8081
+      BACK_VENTAS_HOST: back-ventas:8080
+      NGINX_RESOLVER: 127.0.0.11
     depends_on:
       - back-ventas
       - back-despachos
