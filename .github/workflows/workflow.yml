@@ -54,11 +54,7 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
             docker stop ${{ env.CONTAINER_NAME }} || true
             docker rm ${{ env.CONTAINER_NAME }} || true
-            cd ~/app/frontend
-            echo "BACK_VENTAS_HOST=${{ secrets.EC2_BACKEND_PRIVATE_IP }}:8080" > .env
-            echo "BACK_DESPACHOS_HOST=${{ secrets.EC2_BACKEND_PRIVATE_IP }}:8081" >> .env
-            docker compose pull
-            docker compose up -d
+            docker run -d --name ${{ env.CONTAINER_NAME }} --restart unless-stopped -p 80:80 -e BACK_VENTAS_HOST=${{ secrets.EC2_BACKEND_PRIVATE_IP }}:8080 -e BACK_DESPACHOS_HOST=${{ secrets.EC2_BACKEND_PRIVATE_IP }}:8081 -e NGINX_RESOLVER=127.0.0.11 ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
             docker image prune -f
 
             
