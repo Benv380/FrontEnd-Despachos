@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - deploy
+  workflow_dispatch:
 
 env:
   IMAGE_NAME: frontend-despachos
